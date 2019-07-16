@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -66,7 +67,7 @@ func dataSourceRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	cmd := exec.Command(program[0], program[1:]...)
-
+	cmd.Env = os.Environ()
 	cmd.Dir = workingDir
 
 	queryJson, err := json.Marshal(query)
